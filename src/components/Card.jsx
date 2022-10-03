@@ -74,7 +74,7 @@ export default function Card() {
             </a>
           </div>
 
-          <div className="px-6 text-center mt-2 font-light text-sm overflow-y-scroll h-20">
+          <div className="px-6 text-center mt-2 font-light text-sm overflow-y-auto h-20">
             <p className="text-sm">{userD.Bio}</p>
           </div>
           <hr className="mt-8" />
