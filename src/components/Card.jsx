@@ -15,13 +15,27 @@ export default function Card() {
   useEffect(() => {
     if (foo) {
       const fetchCurrentUser = async () => {
-        const currentUserFromServer = await sp.getSpecifyUserMore(foo);
+        const currentUserFromServer = await sp.getSpecifyUserMore(
+          "i:0#.f|membership|" + foo
+        );
+        const ResultsUser = currentUserFromServer.UserProfileProperties.results;
+        var BioUser = ResultsUser.find((user) => {
+          return user.Key == "AboutMe";
+        });
+        var SkillsUser = ResultsUser.find((user) => {
+          return user.Key == "SPS-Skills";
+        });
+        var CellUser = ResultsUser.find((user) => {
+          return user.Key == "CellPhone";
+        });
         const CurrentuserD = {
-          Bio: currentUserFromServer.UserProfileProperties.results[16].Value,
-          Cellphone:
-            currentUserFromServer.UserProfileProperties.results[58].Value,
-          Skills: currentUserFromServer.UserProfileProperties.results[65].Value,
+          Bio: BioUser.Value,
+          Cellphone: CellUser.Value,
+          Skills: SkillsUser.Value,
         };
+        console.log(ResultsUser);
+        console.log(BioUser.Value);
+
         setUser(currentUserFromServer);
         setUserD(CurrentuserD);
       };
@@ -29,30 +43,20 @@ export default function Card() {
     } else {
       const fetchCurrentUser = async () => {
         const currentUserFromServer = await sp.getCurrentUserMore();
-        const CurrentuserD = {
-          Bio: currentUserFromServer.UserProfileProperties.results[16].Value,
-          Cellphone:
-            currentUserFromServer.UserProfileProperties.results[58].Value,
-          Skills: currentUserFromServer.UserProfileProperties.results[65].Value,
-        };
         setUser(currentUserFromServer);
-        setUserD(CurrentuserD);
       };
       fetchCurrentUser();
     }
   }, []);
-
   console.log(user);
-  console.log(userD);
-  console.log(userD[16]);
   const ImageUser =
     "https://bayergroup.sharepoint.com/sites/020693/_layouts/15/userphoto.aspx?size=L&username=" +
     user.Email;
   const MailSend = "mailto:" + user.Email;
-  const encoded = encodeURIComponent(user.AccountName);
+
   const LinkUser =
     "https://bayergroup.sharepoint.com/sites/022971/cardAlpha/index.html?user=" +
-    encoded;
+    user.Email;
   if (foo) {
     return (
       <div className="bg-gradient-to-r from-cyan-500 to-blue-500 font-sans h-screen w-full flex flex-row justify-center items-center">
@@ -68,9 +72,9 @@ export default function Card() {
           <div className="text-center mt-2 font-light text-sm">
             @{user.Title}
           </div>
-          <div className="text-center font-normal text-lg">
+          <div className="text-center mt-2 font-normal text-lg">
             <a href={MailSend} className="btn-primary">
-              Contact
+              Contact 📩
             </a>
           </div>
 
@@ -79,13 +83,13 @@ export default function Card() {
           </div>
           <hr className="mt-8" />
           <div className="flex p-4">
-            <div className="w-2/3  text-center overflow-y-auto h-12 ">
-              <span className="font-bold">Skills</span>
+            <div className="w-3/4 overflow-x-hidden text-center overflow-y-auto h-12 ">
+              <span className="font-bold">Skills ⚡</span>
               <p className="text-sm">{userD.Skills}</p>
             </div>
             <div className="w-0 border border-gray-300"></div>
-            <div className="w-2/3 text-center overflow-y-auto h-12">
-              <span className="font-bold">Cellphone</span>
+            <div className="w-2/3 overflow-x-hidden text-center overflow-y-auto h-12">
+              <span className="font-bold">Cellphone 📞</span>
               <p className="text-sm">{userD.Cellphone}</p>
             </div>
           </div>
