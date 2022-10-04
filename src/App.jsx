@@ -1,5 +1,4 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Card from "./components/card";
 import Footer from "./components/Footer";
