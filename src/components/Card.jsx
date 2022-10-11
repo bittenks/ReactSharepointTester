@@ -7,6 +7,8 @@ import $ from "jquery";
 import sp from "../services/sp.full";
 import createPeoplePicker from "../services/PeoplePicker";
 import Loading from "./Loading";
+// ES6 Modules or TypeScript
+import Swal from 'sweetalert2'
 
 export default function Card() {
   const [loading, setLoading] = useState(true);
@@ -20,17 +22,18 @@ export default function Card() {
     Cellphone: "",
     Skills: "",
   });
-  const notify = () => {
-    toast.warn("🦄 Wow so easy!", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+ 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
   const GerarCard = () => {
     if ($("#username").attr("emailuser")) {
       window.open(
@@ -38,7 +41,10 @@ export default function Card() {
           $("#username").attr("emailuser")
       );
     } else {
-      alert("Precisa inserir um usuario válido");
+      Toast.fire({
+        title: 'Precisa inserir um usuário válido 😓',
+        icon: 'error',
+      })
     }
   };
 
