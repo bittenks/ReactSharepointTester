@@ -47,12 +47,16 @@ export default function Card() {
       })
     }
   };
-
+  let endpoint =`https://source.unsplash.com/random/2400x3000/?gradient`
+  const getImage = async (endpoint) => {
+    return await fetch(endpoint).then(res => res.url)
+  }
   useEffect(() => {
-    let imageElement = document.querySelector("#Background")
-    let endpoint =`https://source.unsplash.com/random/2400x3000/?gradient`
-    document.body.style.background = ` url('${endpoint}') no-repeat `
-
+    getImage(endpoint)
+    .then(result => {
+      document.body.style.background = ` url('${result}') no-repeat `
+      setLoading(false);
+    })
     if (foo) {
       const timer = setTimeout(() => {
         const fetchCurrentUser = async () => {
@@ -93,7 +97,6 @@ export default function Card() {
         };
         fetchCurrentUser();
         console.log(name);
-        setLoading(false);
       }, 2000);
       return () => clearTimeout(timer);
     }
