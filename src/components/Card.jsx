@@ -49,6 +49,10 @@ export default function Card() {
   };
 
   useEffect(() => {
+    let imageElement = document.querySelector("#Background")
+    let endpoint =`https://source.unsplash.com/random/2400x3000/?gradient`
+    document.body.style.background = ` url('${endpoint}') no-repeat `
+
     if (foo) {
       const timer = setTimeout(() => {
         const fetchCurrentUser = async () => {
@@ -103,7 +107,8 @@ export default function Card() {
     user.Email;
   if (foo) {
     return (
-      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 font-sans h-screen w-full flex flex-row justify-center items-center">
+      <>
+      <div  className=" font-sans h-screen w-full flex flex-row justify-center items-center">
         {loading && <Loading />}
         {!loading && (
           <div className="card cardPrincipal w-96 mx-auto bg-white rounded-lg  shadow-xl hover:shadow">
@@ -142,10 +147,12 @@ export default function Card() {
           </div>
         )}
       </div>
+      </>
     );
   } else {
     return (
-      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 font-sans h-screen w-full flex flex-row justify-center items-center">
+      <>
+      <div  className=" font-sans h-screen w-full flex flex-row justify-center items-center">
         <ToastContainer />
         {loading && <Loading />}
         {!loading && (
@@ -186,6 +193,7 @@ export default function Card() {
           </div>
         )}
       </div>
+      </>
     );
   }
 }
